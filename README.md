@@ -29,7 +29,7 @@ Try to keep your top level directory clutter free so that it only contains noteb
 e.g. place your input data and working data in sub-directories.
 
 
-### Package managment
+### Package management
 
 Your Notebook instance should not be considered permanent. You  will almost certainly need to re-create it at times.
 Your data will remain in the Squonk project, but the instance and anything you had done to customise it (e.g. install additional packages)
