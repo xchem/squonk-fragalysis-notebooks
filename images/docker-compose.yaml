@@ -1,0 +1,7 @@
+services:
+
+  xchem-fragalysis:
+    build:
+      context: xchem-fragalysis
+      dockerfile: Dockerfile
+    image: xchem/jupyter-fragalysis:latest
