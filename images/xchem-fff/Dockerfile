@@ -8,28 +8,31 @@ RUN mamba install --yes \
     fix-permissions "/home/${NB_USER}"
 
 # Upgrade pip and install JupyterLab
-RUN pip install --upgrade pip && pip install hippo-db syndirella
+RUN pip install --upgrade pip && pip install hippo-db syndirella typer neo4j
 
 # patch rich
 RUN python -c "import mrich; mrich.patch_rich_jupyter_margins()"
 
 # notebooks
+USER 0
+RUN mkdir "/home/code" && chown ${NB_USER} "/home/code"
+USER ${NB_USER}
+WORKDIR "/home/code"
 RUN git clone https://github.com/xchem/squonk-fragalysis-notebooks
 
 # fragalysis package
+WORKDIR "/home/code"
 RUN git clone https://github.com/xchem/fragalysis
-WORKDIR "/home/${NB_USER}"/fragalysis
+WORKDIR "/home/code/fragalysis"
 RUN pip install -e .
 
 # HIPPO dev branch
+WORKDIR "/home/code"
 RUN git clone https://github.com/mwinokan/HIPPO
-WORKDIR "/home/${NB_USER}"/HIPPO
+WORKDIR "/home/code/HIPPO"
 RUN git checkout dev
 RUN pip install -e .
 
-# Expose the port Jupyter uses
 EXPOSE 8888
 
 WORKDIR "/home/${NB_USER}"
-# Start JupyterLab (or change to `jupyter notebook` if preferred)
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
