@@ -9,10 +9,22 @@ RUN mamba install --yes \
 
 # Upgrade pip and install JupyterLab
 RUN pip install --upgrade pip && pip install hippo-db syndirella
+
+# patch rich
 RUN python -c "import mrich; mrich.patch_rich_jupyter_margins()"
+
+# notebooks
 RUN git clone https://github.com/xchem/squonk-fragalysis-notebooks
+
+# fragalysis package
 RUN git clone https://github.com/xchem/fragalysis
 WORKDIR "/home/${NB_USER}"/fragalysis
+RUN pip install -e .
+
+# HIPPO dev branch
+RUN git clone https://github.com/mwinokan/HIPPO
+WORKDIR "/home/${NB_USER}"/HIPPO
+RUN git checkout dev
 RUN pip install -e .
 
 # Expose the port Jupyter uses
