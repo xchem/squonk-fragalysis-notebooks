@@ -1,7 +1,9 @@
 services:
 
-  xchem-fragalysis:
+  xchem-fff:
     build:
-      context: xchem-fragalysis
+      context: xchem-fff
       dockerfile: Dockerfile
-    image: xchem/jupyter-fragalysis:latest
+    image: maxwinokan/jupyter-fff:latest
+    ports:
+      - "8888:8888"
