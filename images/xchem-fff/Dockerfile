@@ -8,7 +8,7 @@ RUN mamba install --yes \
     fix-permissions "/home/${NB_USER}"
 
 # Upgrade pip and install JupyterLab
-RUN pip install --upgrade pip && pip install hippo-db syndirella typer neo4j
+RUN pip install --upgrade pip && pip install hippo-db syndirella typer neo4j black
 
 # patch rich
 RUN python -c "import mrich; mrich.patch_rich_jupyter_margins()"
