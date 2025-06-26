@@ -21,7 +21,9 @@ USER ${NB_USER}
 WORKDIR "/home/code"
 RUN git clone https://github.com/xchem/squonk-fragalysis-notebooks && \
     mv squonk-fragalysis-notebooks templates && \
-    cp templates/welcome.ipynb /home/${NB_USER}/welcome.ipynb
+    cp templates/welcome.ipynb /home/${NB_USER}/welcome.ipynb && \
+    mkdir /home/code/copy-to-startup && \
+    cp templates/welcome.ipynb /home/code/copy-to-startup/welcome.ipynb
 
 # fragalysis package
 WORKDIR "/home/code"
