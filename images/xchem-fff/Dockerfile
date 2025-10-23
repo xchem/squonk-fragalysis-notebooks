@@ -1,8 +1,8 @@
 FROM quay.io/jupyter/minimal-notebook:2025-04-14
 LABEL authors="Max Winokan"
-    
+
 # Upgrade pip and install JupyterLab
-RUN pip install --upgrade pip && pip install hippo-db syndirella typer neo4j black gemmi
+RUN pip install --upgrade pip && pip install hippo-db typer neo4j black gemmi
 
 RUN mamba install --yes \
     chemicalite=2024.05.1 pdbfixer && \
@@ -13,8 +13,41 @@ RUN mamba install --yes \
 # patch rich
 RUN python -c "import mrich; mrich.patch_rich_jupyter_margins()"
 
-# notebooks
+# install Chrome for plotly/kaleido
+RUN python -c "import plotly.io as pio; pio.get_chrome()"
+
+# Install Kaleido / Chromium dependencies
+USER root
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        alsa-utils \
+        libasound2-data \
+        libnss3 \
+        libatk-bridge2.0-0 \
+        libcups2 \
+        libxcomposite1 \
+        libxdamage1 \
+        libxfixes3 \
+        libxrandr2 \
+        libgbm1 \
+        libxkbcommon0 \
+        libpango-1.0-0 \
+        libcairo2 \
+        libgtk-3-0 \
+        libx11-6 \
+        libxext6 \
+        libxrender1 \
+        libxi6 \
+        fonts-liberation \
+        libappindicator3-1 \
+        lsb-release \
+        xdg-utils \
+        wget
+
+# set user
 USER 0
+
+# notebooks
 RUN mkdir "/home/code" && chown ${NB_USER} "/home/code" && \
     sudo apt update && sudo apt install screen -y
 USER ${NB_USER}

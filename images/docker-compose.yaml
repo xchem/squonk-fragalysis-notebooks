@@ -4,6 +4,7 @@ services:
     build:
       context: xchem-fff
       dockerfile: Dockerfile
+    platform: linux/amd64
     image: maxwinokan/jupyter-fff:latest
     ports:
       - "8888:8888"
