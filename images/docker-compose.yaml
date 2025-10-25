@@ -8,3 +8,12 @@ services:
     image: maxwinokan/jupyter-fff:latest
     ports:
       - "8888:8888"
+
+  xchem-fff-syndirella:
+    build:
+      context: xchem-fff-syndirella
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    image: maxwinokan/jupyter-syndirella:latest
+    ports:
+      - "8888:8888"
