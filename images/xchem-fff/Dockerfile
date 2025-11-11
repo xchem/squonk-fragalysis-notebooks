@@ -13,22 +13,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Upgrade pip and install JupyterLab
 RUN pip install --upgrade pip && \
-    pip install cgrtools --use-pep517 && \
-    pip install hippo-db typer neo4j black gemmi syndirella==5.0.0a0
+    pip install hippo-db typer neo4j black gemmi im-squonk2-client
 
 RUN mamba install --yes \
     chemicalite=2024.05.1 pdbfixer && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-
-# AiZynthfinder setup
-# RUN syndirella setup-aizynth
-RUN pip install aizynthfinder && \
-    mkdir -p /home/${NB_USER}/.aizynthfinder && \
-    download_public_data /home/${NB_USER}/.aizynthfinder
-
-ENV AIZYNTH_CONFIG_FILE=/home/${NB_USER}/.aizynthfinder/config.yml
 
 # patch rich
 RUN python -c "import mrich; mrich.patch_rich_jupyter_margins()"
